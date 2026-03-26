@@ -1,13 +1,4 @@
-# IPTV on UniFi OS
-
-This document describes how to set up IPTV on UniFi routing devices based on 
-UniFi OS, such as the UniFi Dream Machine (UDM) or the UniFi Dream Router (UDR).
-These instructions have been tested with the IPTV network from KPN
-(ISP in the Netherlands).
-However, the general approach should be applicable for other ISPs as well.
-
-For getting IPTV to work on the legacy UniFi Security Gateway, please refer to
-the [following guide](https://github.com/basmeerman/unifi-usg-kpn).
+# Unifi Cloud Gateway IPTV
 
 ## Contents
 
@@ -31,13 +22,13 @@ the [following guide](https://github.com/basmeerman/unifi-usg-kpn).
       VLAN6 - Internet
           |
       +--------+
-      | Router |  - Ubiquiti UniFi device
+      | Router |  - Unifi Cloud Gateway
       +--------+
           |
          LAN
           |
       +--------+
-      | Switch |  - Ubiquiti UniFi Switch (Optional)
+      | Switch |  - Unifi Switch
       +--------+
        |  |  |
        |  |  +-----------------------------+
@@ -55,12 +46,8 @@ the [following guide](https://github.com/basmeerman/unifi-usg-kpn).
 
 Make sure you check the following prerequisites before trying the other steps:
 
-1. The kernel on your UniFi device must support multicast routing
-   in order to support IPTV. Please upgrade to the latest firmware.
-2. The switches in-between the IPTV decoder and the UniFi device should have IGMP
-   snooping enabled. They do not need to be from Ubiquiti necessarily.
-3. The FTTP NTU (or any other type of modem) of your ISP must be connected to
-   one of the WAN ports of your UniFi device.
+1. The kernel on your UniFi device must support multicast routing in order to support IPTV. Please upgrade to the latest firmware.
+2. The switches in-between the IPTV decoder and the UniFi device should have `IGMP snooping` enabled. Also see section "Configuring Internal LAN".
 
 ## Setting up Internet Connection
 
@@ -83,8 +70,7 @@ If you are a customer of KPN, you can set up the WAN connection as follows:
 
 ## Configuring Internal LAN
 
-To operate correctly, the IPTV decoders on the internal LAN possibly require
-additional DHCP options. You can add these DHCP options as follows:
+To operate correctly, the IPTV decoders on the internal LAN possibly require additional DHCP options. You can add these DHCP options as follows:
 
 1. In your UniFi Dashboard, go to **Settings > Networks**.
 2. Select the LAN network on which IPTV will be used.
@@ -95,8 +81,7 @@ additional DHCP options. You can add these DHCP options as follows:
 
 ## Configuring Helper Tool
 
-Next, we will use the udm-iptv package to get IPTV working on your LAN.
-This package uses [igmpproxy](https://github.com/pali/igmpproxy) to route 
+Next, we will use the udm-iptv package to get IPTV working on your LAN. This package uses [igmpproxy](https://github.com/pali/igmpproxy) to route 
 multicast IPTV traffic between WAN and LAN.
 
 ### Installation
